@@ -2,14 +2,12 @@
 #define CONCATENATE(x,y) CONCATENATE_DETAIL(x, y)
 #define MAKE_UNIQUE(x) CONCATENATE(x, __COUNTER__)
 
-#define show(pref,suf,...)       \
+#define show(...)                \
 if (!SHUT_DEBUG) {               \
 	SHUT_DEBUG = 1;              \
 	PRINT_LINE_NUMBER(__LINE__); \
 	PRINT_DEBUG_PREFIX();        \
-	PRINT(pref);                 \
-	OUTPUT(__VA_ARGS__);         \
-	PRINT(suf);                  \
+	FORMAT(__VA_ARGS__);         \
 	NEWLINE();                   \
 	SHUT_DEBUG = 0;              \
 }
@@ -71,6 +69,9 @@ template<typename T> string TO_STRING (const T &__a) {
 void PRINT (const string &__s) {
 	cerr << __s;
 }
+void PRINT (char __c) {
+	cerr << __c;
+}
 
 void PRINT_LINE_NUMBER (int __line) {
 	string __s = TO_STRING(__line);
@@ -121,6 +122,26 @@ template<typename It> void OUTPUT (It begin, It end) {
 		}
 	}
 	PRINT("]");
+}
+
+void FORMAT (const char *__s) {
+	for (; *__s; ++__s) {
+		if (*__s == '%') {
+			assert(0);
+		}
+		PRINT(*__s);
+	}
+}
+template<typename T, typename... Args> void FORMAT (const char *__s, const T &__a, const Args &...__args) {
+	for (; *__s; ++__s) {
+		if (*__s == '%') {
+			OUTPUT(__a);
+			FORMAT(++__s, __args...);
+			return;
+		}
+		PRINT(*__s);
+	}
+	assert(0);
 }
 
 template<typename T> struct outputer {
