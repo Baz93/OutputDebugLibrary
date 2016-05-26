@@ -29,16 +29,14 @@ if (!SHUT_DEBUG) {               \
 #define pbegin(...) auto __PRINT_RES = __VA_ARGS__; [&] () {
 #define pend }(); __PRINT_RES();
 
-#define AUTO_PTR unique_ptr
-
-#define deepen(...)                                          \
-AUTO_PTR<RECURSION_LEVEL> MAKE_UNIQUE(THIS_RECURSION_LEVEL)( \
-	SHUT_DEBUG ? 0 : new RECURSION_LEVEL(__VA_ARGS__)        \
+#define deepen(...)                                            \
+unique_ptr<RECURSION_LEVEL> MAKE_UNIQUE(THIS_RECURSION_LEVEL)( \
+	SHUT_DEBUG ? 0 : new RECURSION_LEVEL(__VA_ARGS__)          \
 )
 
-#define timer(...)                                    \
-AUTO_PTR<TIMESTAMPER> MAKE_UNIQUE(THIS_TIMESTAMPER)(  \
-	SHUT_DEBUG ? 0 : new TIMESTAMPER(__LINE__)        \
+#define timer(...)                                     \
+unique_ptr<TIMESTAMPER> MAKE_UNIQUE(THIS_TIMESTAMPER)( \
+	SHUT_DEBUG ? 0 : new TIMESTAMPER(__LINE__)         \
 )
 
 #define problemname EXTRACT_NAME(__FILE__)
