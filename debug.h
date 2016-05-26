@@ -319,11 +319,11 @@ struct TIMESTAMPER {
 };
 
 string EXTRACT_NAME (string __s) {
-	size_t __length = std::min(
-		std::find(__s.rbegin(), __s.rend(), '/') - __s.rbegin(),
-		std::find(__s.rbegin(), __s.rend(), '\\') - __s.rbegin()
+	size_t __length = min(
+		find(__s.rbegin(), __s.rend(), '/') - __s.rbegin(),
+		find(__s.rbegin(), __s.rend(), '\\') - __s.rbegin()
 	);
 	__s = __s.substr(__s.size() - __length, __length);
-	return __s.substr(0, std::find(__s.begin(), __s.end(), '.') - __s.begin());
+	return __s.substr(0, find(__s.begin(), __s.end(), '.') - __s.begin());
 }
 
