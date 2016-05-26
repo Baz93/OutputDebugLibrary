@@ -1,7 +1,3 @@
-#if __cplusplus > 199711L
-	#define CXX11
-#endif
-
 #define CONCATENATE_DETAIL(x,y) x##y
 #define CONCATENATE(x,y) CONCATENATE_DETAIL(x, y)
 #define MAKE_UNIQUE(x) CONCATENATE(x, __COUNTER__)
@@ -29,11 +25,7 @@ if (!SHUT_DEBUG) {               \
 	SHUT_DEBUG = 0;              \
 }
 
-#ifdef CXX11
-	#define AUTO_PTR unique_ptr
-#else
-	#define AUTO_PTR auto_ptr
-#endif
+#define AUTO_PTR unique_ptr
 
 #define deepen(...)                                          \
 AUTO_PTR<RECURSION_LEVEL> MAKE_UNIQUE(THIS_RECURSION_LEVEL)( \
@@ -235,9 +227,6 @@ template<typename T1, typename T2> struct outputer<pair<T1, T2> > {
 		PRINT(")");
 	}
 };
-
-#ifdef CXX11
-
 template<typename T, size_t N> struct outputer<array<T, N> > {
 	void operator () (const array<T, N> &__a) {
 		OUTPUT(__a.begin(), __a.end());
@@ -297,8 +286,6 @@ template<typename... Args> struct outputer<tuple<Args...> > {
 		OUTPUT(")");
 	}
 };
-
-#endif
 
 struct RECURSION_LEVEL {
 	size_t __shift_size;
