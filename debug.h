@@ -58,6 +58,15 @@ AUTO_PTR<TIMESTAMPER> MAKE_UNIQUE(THIS_TIMESTAMPER)(  \
 struct outputable {};
 template<typename T> struct outputer;
 
+template<typename It> struct _INTERVAL {
+	It __begin, __end;
+	_INTERVAL (It __begin_, It __end_) : __begin(__begin_), __end(__end_) {}
+};
+
+template<typename It> INTERVAL (It __begin, It __end) {
+	return _INTERVAL<It>(__begin, __end);
+}
+
 bool SHUT_DEBUG = 0;
 string DEBUG_PREFIX;
 
@@ -130,6 +139,11 @@ template<typename T> struct outputer {
 template<> struct outputer<outputable> {
 	template<typename T> void operator () (const T &__a) {
 		__a.output();
+	}
+};
+template<typename It> struct outputer<_INTERVAL<It> > {
+	void operator () (const _INTERVAL<It> &__a) {
+		OUTPUT(__a.__begin, __a.__end);
 	}
 };
 template<> struct outputer<long double> {
