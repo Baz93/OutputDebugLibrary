@@ -23,6 +23,12 @@ if (!SHUT_DEBUG) {               \
 	SHUT_DEBUG = 0;              \
 }
 
+#define fbegin(...) auto __PRINT_RES = __VA_ARGS__; auto __RESULT = [&] () {
+#define fend }(); __PRINT_RES(__RESULT); return __RESULT;
+
+#define pbegin(...) auto __PRINT_RES = __VA_ARGS__; [&] () {
+#define pend }(); __PRINT_RES();
+
 #define AUTO_PTR unique_ptr
 
 #define deepen(...)                                          \
